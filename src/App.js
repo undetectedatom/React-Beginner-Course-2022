@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import "./style.css";
 import Task from "./Task";
 
 function App() {
@@ -29,7 +30,7 @@ function App() {
     setToDoList(
       toDoList.map((task) => {
         if (id === task.id) {
-          return { ...task, complete: true };
+          return { ...task, complete: !task.complete };
         } else return task;
       }),
     );
@@ -45,7 +46,9 @@ function App() {
             key={task.id}
             taskText={task.text}
             taskId={task.id}
+            complete={task.complete}
             removeItem={removeItem}
+            markComplete={markComplete}
           />
         ))}
       </div>
