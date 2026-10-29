@@ -4,33 +4,33 @@ import "./style.css";
 import Task from "./Task";
 
 function App() {
-  const [toDoList, setToDoList] = useState([]);
-  const [item, setItem] = useState("");
+  const [tasks, setTasks] = useState([]);
+  const [newTaskText, setNewTaskText] = useState("");
 
-  const updateItem = (event) => {
-    setItem(event.target.value);
+  const handleTaskTextChange = (event) => {
+    setNewTaskText(event.target.value);
   };
 
-  const addItemToList = () => {
-    setItem("");
-    if (!item.trim()) return;
+  const addTask = () => {
+    setNewTaskText("");
+    if (!newTaskText.trim()) return;
     const newTask = {
       id: crypto.randomUUID(),
-      text: item,
-      complete: false,
+      text: newTaskText,
+      isComplete: false,
     };
-    setToDoList([...toDoList, newTask]);
+    setTasks([...tasks, newTask]);
   };
 
-  const removeItem = (id) => {
-    setToDoList(toDoList.filter((item) => id !== item.id));
+  const deleteTask = (taskId) => {
+    setTasks(tasks.filter((task) => taskId !== task.id));
   };
 
-  const markComplete = (id) => {
-    setToDoList(
-      toDoList.map((task) => {
-        if (id === task.id) {
-          return { ...task, complete: !task.complete };
+  const toggleTaskComplete = (taskId) => {
+    setTasks(
+      tasks.map((task) => {
+        if (taskId === task.id) {
+          return { ...task, isComplete: !task.isComplete };
         } else return task;
       }),
     );
@@ -38,17 +38,17 @@ function App() {
 
   return (
     <div className="App">
-      <input type="text" onChange={updateItem} value={item} />
-      <button onClick={addItemToList}>Add Task</button>
+      <input type="text" onChange={handleTaskTextChange} value={newTaskText} />
+      <button onClick={addTask}>Add Task</button>
       <div>
-        {toDoList.map((task) => (
+        {tasks.map((task) => (
           <Task
             key={task.id}
             taskText={task.text}
             taskId={task.id}
-            complete={task.complete}
-            removeItem={removeItem}
-            markComplete={markComplete}
+            isComplete={task.isComplete}
+            onDelete={deleteTask}
+            onToggleComplete={toggleTaskComplete}
           />
         ))}
       </div>
