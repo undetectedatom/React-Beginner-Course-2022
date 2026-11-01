@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../App";
 
 export default function ProfileForm(props) {
   const [newUserName, setNewUserName] = useState("");
+  const user = useContext(UserContext);
   const changeName = (event) => {
     setNewUserName(event.target.value);
   };
   const updateName = () => {
-    props.setName(newUserName);
+    user.setName(newUserName);
     setNewUserName("");
   };
   return (
